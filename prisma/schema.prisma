@@ -1,0 +1,117 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int       @id @default(autoincrement())
+  name     String
+  email    String    @unique
+  password String
+  planners Planner[]
+   tickets  Ticket[]   // relazione con i Ticket
+}
+
+model Planner {
+  id        Int      @id @default(autoincrement())
+  name      String
+  date      String
+  items     Json
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Attraction {
+  id             Int    @id @default(autoincrement())
+  name           String @unique
+  description    String
+  category       String
+  waitTime       Int
+  ageRestriction String
+  intensity      Int
+  zone           String
+  rating         Float?
+  popularity     Int?
+  views          Int?
+  likes          Int?
+  status         String?
+  image          String?
+}
+
+model Show {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String
+  category    String
+  times       Json
+  day         String
+  capacity   Int?  
+  location    String
+  duration    Int
+  rating      Float?
+  popularity  Int?
+  views       Int?
+  likes       Int?
+  status      String?
+  image       String?
+  nextShow    String?
+}
+
+model Ticket {
+  id       Int      @id @default(autoincrement())
+  type     String
+  quantity Int
+  date     String
+  code     String   @unique
+  userId   Int
+  user     User     @relation(fields: [userId], references: [id])
+}
+
+model AttractionMap {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  x           Int
+  y           Int
+  waitTime    Int
+  type        String
+  description String
+  zone        String
+  duration    String
+  height      String
+  intensity   String
+  rating      Float
+  reviews     Int
+  openTime    String
+  fastPass    Boolean
+  image       String
+}
+
+model ShowMap {
+  id          Int     @id @default(autoincrement())
+  x           Int
+  y           Int
+  name        String  @unique
+  waitTime    Int
+  type        String
+  description String
+  zone        String
+  duration    String
+  height      String
+  intensity   String
+  rating      Float
+  reviews     Int
+  openTime    String
+  fastPass    Boolean
+  image       String
+}
