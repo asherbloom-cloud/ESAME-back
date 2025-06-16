@@ -4,12 +4,14 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./index.js",
-    "start": "node ./index.js",
-    "db:prod": "dotenv -e .env.prod -- npx prisma db push",
-    "studio:prod": "dotenv -e .env.prod -- npx prisma studio"
-  },
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "dev": "nodemon ./index.js",
+  "start": "node ./index.js",
+  "db:prod": "dotenv -e .env.prod -- npx prisma db push",
+  "seed:prod": "dotenv -e .env.prod -- npx prisma db seed",
+  "studio:prod": "dotenv -e .env.prod -- npx prisma studio",
+  "start:prod": "npm run db:prod && npm run seed:prod && npm run start"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
